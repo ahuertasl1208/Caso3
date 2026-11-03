@@ -34,6 +34,6 @@ public class Solicitud {
     @Override 
 
     public String toString(){
-        return id + " [cpu=" + procesadores + ",memo=" + memoriaGiB + ",disc =" + discoGiB + "GiB]";  
+        return id + " [cpu=" + procesadores + ", memo=" + memoriaGiB + ", disc =" + discoGiB + " GiB]";  
     }
 }

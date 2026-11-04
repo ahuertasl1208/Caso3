@@ -13,7 +13,7 @@ public class ZonaEspera {
     public synchronized void espera(MV mv) {
         enEspera++;
         try {
-            wait(); // Espera pasiva
+            wait(1000); // Espera pasiva
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {

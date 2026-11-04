@@ -50,6 +50,10 @@ public class Main {
     	
     	BuzonEntrada buzon = new BuzonEntrada(tam1, nu);
     	
+    	ZonaEspera zona = new ZonaEspera(tam2);
+    	Controlador cProcesadores = new ControladorProcesador(procesadores);
+    	Controlador cMemoria = new ControladorMemoria(memoria, pagina);
+    	Controlador cDisco = new ControladorAlmacenamiento(almacenamiento, bloque);
     	
     	Usuario[] usuarios = new Usuario[nu];
     	
@@ -61,7 +65,7 @@ public class Main {
    	
     	Gestor[] gestores = new Gestor[ng];
     	for (int i = 0; i < ng; i++) { 
-    		gestores[i] = new Gestor(i+1, buzon);
+    		gestores[i] = new Gestor(i + 1, buzon, zona, cProcesadores, cMemoria, cDisco);
     	}
     	
     	for (Usuario u : usuarios) u.start();
@@ -69,5 +73,7 @@ public class Main {
 
     	for (Usuario u : usuarios) u.join();
     	for (Gestor g : gestores) g.join();
+    	
+    	System.out.println("Fin. Buzón vacío: " + !buzon.hayTrabajo()+ " | MVs en la zona: " + zona.pendiente());
     }
 }

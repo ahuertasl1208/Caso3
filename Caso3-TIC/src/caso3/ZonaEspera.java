@@ -1,17 +1,37 @@
 package caso3;
 
 public class ZonaEspera {
-
     private int enEspera;
-    private int umbral;
+    private final int umbral;
 
-    public void esperar(MV mv) {
+    public ZonaEspera(int umbral) {
+        this.umbral = umbral;
+        this.enEspera = 0;
     }
 
-    public void despertar() {
+    // La MV entra en espera pasiva cuando no puede reservar recursos
+    public synchronized void espera(MV mv) {
+        enEspera++;
+        try {
+            wait(); // Espera pasiva
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            enEspera--;
+        }
     }
 
-    public int pendientes() {
-        return 0;
+    // Despierta a todas las MVs para reintentar la reserva completa
+    public synchronized void despertar() {
+        notifyAll(); // Se usa notifyAll para dar oportunidad a las MVs que quepan
+    }
+
+    // Utilizado por el Gestor para verificar la condición del umbral
+    public synchronized int pendiente() {
+        return enEspera;
+    }
+
+    public int getUmbral() {
+        return umbral;
     }
 }
